@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rental Market Analysis — 3924 Plainview Drive | Verandah Properties</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Jost:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+    --teal: #008C82;
+    --teal-dark: #006661;
+    --teal-light: #4DAEA7;
+    --gold: #D4AF50;
+    --gold-light: #E8D094;
+    --gold-pale: #F7EFD9;
+    --ink: #1a1a1a;
+    --body: #2a2a2a;
+    --muted: #6B6B6B;
+    --light-muted: #9A9A9A;
+    --border: #E8E5DD;
+    --bg-warm: #FAF7F0;
+    --bg-cream: #FDFCF7;
+    --bg-cool: #F5F8F8;
+    --green: #2d8a3e;
+    --green-bg: #f0f7f1;
+    --amber: #c9a227;
+    --amber-bg: #fbf8ee;
+    --red: #b8392e;
+    --red-bg: #fbf0ee;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Jost', 'DM Sans', sans-serif;
+    color: var(--body);
+    line-height: 1.65;
+    font-size: 16px;
+    background: var(--bg-cream);
+    font-weight: 400;
+}
+.serif { font-family: 'Cormorant Garamond', serif; }
+.container { max-width: 1000px; margin: 0 auto; padding: 0 28px; }
+
+/* HEADER */
+.report-header {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    color: white;
+    padding: 56px 0 64px 0;
+    border-bottom: 5px solid var(--gold);
+    text-align: center;
+}
+.report-header .brand-line {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.report-header .for-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 28px;
+}
+.report-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+.report-header h1 em { font-style: italic; color: var(--gold-light); }
+.report-header .address {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--gold-light);
+    margin-top: 8px;
+}
+.report-header .date {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 18px;
+    letter-spacing: 1px;
+}
+
+/* RECOMMENDATION CALLOUT */
+.recommendation-bar {
+    background: linear-gradient(135deg, var(--gold-pale) 0%, #FBF6E5 100%);
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    padding: 40px 0;
+    text-align: center;
+}
+.recommendation-bar .label {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+.recommendation-bar .price {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    color: var(--teal-dark);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+.recommendation-bar .price .unit { font-size: 26px; color: var(--gold); font-weight: 500; }
+.recommendation-bar .tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--body);
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* SECTIONS */
+section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+section:nth-child(even) { background: var(--bg-warm); }
+.section-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    color: var(--ink);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -0.3px;
+}
+section h2 em { font-style: italic; color: var(--teal); }
+section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin: 28px 0 12px 0;
+    font-weight: 700;
+}
+.lead {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--body);
+    margin-bottom: 24px;
+    max-width: 760px;
+}
+section p { margin-bottom: 14px; font-size: 16px; line-height: 1.7; }
+
+/* PROPERTY HIGHLIGHTS */
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+}
+.prop-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--teal);
+    padding: 20px 16px;
+    border-radius: 4px;
+    text-align: center;
+}
+.prop-card .label {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.prop-card .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--teal-dark);
+    line-height: 1.1;
+    margin-bottom: 4px;
+}
+.prop-card .sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* COMP TABLE */
+table.data {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+table.data thead th {
+    background: var(--teal-dark);
+    color: white;
+    padding: 14px 12px;
+    text-align: left;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+table.data thead th.numeric { text-align: right; }
+table.data td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    font-size: 15px;
+}
+table.data td.numeric { text-align: right; font-variant-numeric: tabular-nums; }
+table.data tr:last-child td { border-bottom: none; }
+table.data tr.subject { background: var(--gold-pale); }
+table.data tr.subject td { color: var(--teal-dark); font-weight: 600; }
+table.data tr.subject td:first-child { color: var(--gold); }
+table.data tr.highlight-good { background: var(--green-bg); }
+table.data tr.highlight-good td:first-child { color: var(--green); font-weight: 600; }
+table.data tr.highlight-warn { background: var(--amber-bg); }
+table.data tr.highlight-warn td:first-child { color: var(--amber); font-weight: 600; }
+.subj-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    margin-left: 6px;
+    text-transform: uppercase;
+}
+.tag-fast {
+    display: inline-block;
+    background: var(--green);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    margin-left: 6px;
+    text-transform: uppercase;
+}
+.tag-slow {
+    display: inline-block;
+    background: var(--amber);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    margin-left: 6px;
+    text-transform: uppercase;
+}
+
+/* INSIGHT BOX */
+.insight-box {
+    background: white;
+    border-left: 4px solid var(--gold);
+    padding: 24px 28px;
+    margin: 24px 0;
+    border-radius: 0 6px 6px 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.insight-box .label {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.insight-box .headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+.insight-box p { font-size: 15.5px; line-height: 1.7; }
+
+.insight-box.green { border-left-color: var(--green); }
+.insight-box.green .label { color: var(--green); }
+.insight-box.amber { border-left-color: var(--amber); }
+.insight-box.amber .label { color: var(--amber); }
+
+/* CHART CONTAINER */
+.chart-wrap {
+    background: white;
+    padding: 28px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin: 24px 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.chart-wrap h3 {
+    margin: 0 0 8px 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+}
+.chart-wrap .chart-caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+.chart-wrap canvas { max-height: 360px; }
+
+/* PRICING SCENARIO */
+.scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+}
+.scenario-card {
+    background: white;
+    padding: 24px 20px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    text-align: center;
+}
+.scenario-card.recommended {
+    border-color: var(--green);
+    background: var(--green-bg);
+    position: relative;
+}
+.scenario-card.recommended::before {
+    content: 'RECOMMENDED';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--green);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 3px;
+}
+.scenario-card.stretch { border-color: var(--amber); background: var(--amber-bg); }
+.scenario-card.aggressive { border-color: var(--red); background: var(--red-bg); }
+.scenario-card .scenario-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.scenario-card .scenario-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 8px;
+}
+.scenario-card.recommended .scenario-price { color: var(--green); }
+.scenario-card.stretch .scenario-price { color: var(--amber); }
+.scenario-card.aggressive .scenario-price { color: var(--red); }
+.scenario-card .scenario-dom {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 12px;
+}
+.scenario-card .scenario-note {
+    font-size: 13.5px;
+    color: var(--body);
+    line-height: 1.55;
+}
+
+/* VACANCY MATH */
+.math-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: white;
+}
+.math-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+}
+.math-table td.label { color: var(--muted); }
+.math-table td.value {
+    text-align: right;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+}
+.math-table tr.headline { background: var(--gold-pale); }
+.math-table tr.headline td { font-weight: 700; }
+.math-table tr.headline td.value { color: var(--teal-dark); font-size: 20px; }
+
+/* NEXT STEPS */
+.steps-list {
+    margin: 24px 0;
+    counter-reset: step;
+}
+.step {
+    display: flex;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+}
+.step:last-child { border-bottom: none; }
+.step .num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--teal);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+}
+.step .body h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 4px;
+}
+.step .body p { font-size: 15px; line-height: 1.65; margin: 0; }
+
+/* FOOTER */
+.report-footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.85);
+    padding: 40px 0 32px 0;
+    text-align: center;
+    font-size: 14.5px;
+    line-height: 1.7;
+}
+.report-footer .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+.report-footer a { color: var(--gold-light); text-decoration: none; }
+.report-footer .disclaimer {
+    color: rgba(255,255,255,0.5);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13.5px;
+    margin-top: 20px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.55;
+}
+
+@media (max-width: 768px) {
+    .report-header h1 { font-size: 30px; }
+    .recommendation-bar .price { font-size: 46px; }
+    section h2 { font-size: 26px; }
+    .property-grid { grid-template-columns: repeat(2, 1fr); }
+    .scenario-grid { grid-template-columns: 1fr; }
+    table.data { font-size: 13px; }
+    table.data td, table.data th { padding: 10px 8px; }
+}
+</style>
+</head>
+<body>
+
+<header class="report-header">
+    <div class="container">
+        <div class="brand-line">Verandah Properties · Rental Market Analysis</div>
+        <div class="for-label">Prepared for Ram Naga</div>
+        <h1>Pricing Your Townhouse for a <em>21-Day Placement.</em></h1>
+        <div class="address">3924 Plainview Drive · Orlando, FL 32824</div>
+        <div class="date">MAY 29, 2026</div>
+    </div>
+</header>
+
+<!-- TOP-LINE RECOMMENDATION -->
+<div class="recommendation-bar">
+    <div class="label">Recommended Starting List Price</div>
+    <div class="price">$2,195<span class="unit"> / mo</span></div>
+    <div class="tag">Strategic range of <strong>$2,095 – $2,195</strong> · anchored in five recent local comps. Targets a 21-day placement with a well-qualified tenant — and protects your annual yield from vacancy drag.</div>
+</div>
+
+<!-- PROPERTY SNAPSHOT -->
+<section>
+    <div class="container">
+        <div class="section-label">Section 01 — Your Property</div>
+        <h2>An immaculate 2019 build <em>that shows beautifully.</em></h2>
+        <p class="lead">The condition of your property is your single biggest leasing asset. Newer construction, meticulous maintenance, neutral palette, two true ensuite primary bedrooms, and a versatile loft space — together these create a property that quality renters will respond to quickly.</p>
+
+        <div class="property-grid">
+            <div class="prop-card">
+                <div class="label">Year Built</div>
+                <div class="value">2019</div>
+                <div class="sub">7 years young</div>
+            </div>
+            <div class="prop-card">
+                <div class="label">Layout</div>
+                <div class="value">2BR + Loft</div>
+                <div class="sub">2.5 baths · 1-car garage</div>
+            </div>
+            <div class="prop-card">
+                <div class="label">Configuration</div>
+                <div class="value">Dual Suite</div>
+                <div class="sub">Both bedrooms ensuite upstairs</div>
+            </div>
+            <div class="prop-card">
+                <div class="label">Condition</div>
+                <div class="value">Move-In</div>
+                <div class="sub">Updated · neutral · ready</div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="label">The Value of Your Configuration</div>
+            <div class="headline">Two true ensuite primary bedrooms + a flex loft is a rare and marketable layout.</div>
+            <p>Most townhomes in this corridor are 3-bedroom configurations marketed to small families. Yours appeals to a different — and equally well-qualified — tenant pool: professional couples, dual-income roommates seeking private suites, and small households who value the flex loft as a nursery, home office, gym, or guest space. The loft does not count as a true bedroom in the rental market, which is the one consideration that shapes our pricing strategy below.</p>
+        </div>
+    </div>
+</section>
+
+<!-- THE LOCAL DATA -->
+<section>
+    <div class="container">
+        <div class="section-label">Section 02 — The Local Rental Data</div>
+        <h2>Five recent comps tell <em>a very clear story.</em></h2>
+        <p class="lead">Pulled directly from Stellar MLS as of today — one active listing and four properties that leased in the last 90 days within the immediate vicinity. The data is unusually clean for a pricing decision.</p>
+
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>Address</th>
+                    <th class="numeric">Beds</th>
+                    <th class="numeric">SqFt</th>
+                    <th class="numeric">Year</th>
+                    <th class="numeric">Leased At</th>
+                    <th class="numeric">DOM</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="highlight-good">
+                    <td>2942 Rodrick Cir · Wyndham Lakes</td>
+                    <td class="numeric"><b>2BR</b></td>
+                    <td class="numeric">1,725</td>
+                    <td class="numeric">2010</td>
+                    <td class="numeric"><b>$2,200</b></td>
+                    <td class="numeric"><b>10</b></td>
+                    <td>Leased 4/24 <span class="tag-fast">10 Days</span></td>
+                </tr>
+                <tr>
+                    <td>3061 Rodrick Circle</td>
+                    <td class="numeric">3BR</td>
+                    <td class="numeric">1,659</td>
+                    <td class="numeric">2011</td>
+                    <td class="numeric">$2,150</td>
+                    <td class="numeric">20</td>
+                    <td>Leased 4/27</td>
+                </tr>
+                <tr class="highlight-good">
+                    <td>3912 Plainview Dr · Somerset Crossings</td>
+                    <td class="numeric">3BR</td>
+                    <td class="numeric">1,881</td>
+                    <td class="numeric">2019</td>
+                    <td class="numeric"><b>$2,200</b></td>
+                    <td class="numeric">33</td>
+                    <td>Leased 4/30 <span class="tag-fast">Same Street</span></td>
+                </tr>
+                <tr class="highlight-warn">
+                    <td>3869 Plainview Dr · Somerset Crossings</td>
+                    <td class="numeric">3BR</td>
+                    <td class="numeric">1,881</td>
+                    <td class="numeric">2019</td>
+                    <td class="numeric">$2,400</td>
+                    <td class="numeric"><b>96</b></td>
+                    <td>Leased 2/26 <span class="tag-slow">3+ Months</span></td>
+                </tr>
+                <tr>
+                    <td>2243 J Lawson Blvd · Las Cascada</td>
+                    <td class="numeric">3BR</td>
+                    <td class="numeric">1,620</td>
+                    <td class="numeric">2006</td>
+                    <td class="numeric">$2,350 ask</td>
+                    <td class="numeric">14+</td>
+                    <td>Active · still on market</td>
+                </tr>
+                <tr class="subject">
+                    <td>3924 Plainview — Your Property <span class="subj-tag">SUBJECT</span></td>
+                    <td class="numeric">2BR</td>
+                    <td class="numeric">~1,500</td>
+                    <td class="numeric">2019</td>
+                    <td class="numeric">$2,195</td>
+                    <td class="numeric">target ≤ 21</td>
+                    <td>To be marketed</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="chart-wrap">
+            <h3>The Price-to-DOM Relationship</h3>
+            <div class="chart-caption">Where each comp landed on price vs. how long it took to lease. The pattern is striking.</div>
+            <canvas id="domChart"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- THE KEY INSIGHT -->
+<section>
+    <div class="container">
+        <div class="section-label">Section 03 — The Headline Insight</div>
+        <h2>Two identical homes on your street. <em>One leased in 33 days. One took 96.</em></h2>
+
+        <div class="insight-box amber">
+            <div class="label">The Most Important Data Point in This Report</div>
+            <div class="headline">3869 Plainview and 3912 Plainview are the same property type. Same street. Same builder. Same 1,881 sqft. Same 2019 build year.</div>
+            <p><strong>3869 Plainview was priced at $2,400 — it took 96 days to lease.</strong> The owner held the price firm, the property leased at full ask, but they paid for it with 96 days of vacancy. At a $2,400/mo rent, that is roughly <strong>$7,680 in lost rent</strong> just sitting empty.</p>
+            <p><strong>3912 Plainview was priced at $2,200 — it leased in 33 days.</strong> Same property type, same street, two months earlier off the market and producing income.</p>
+            <p style="font-weight: 600; color: var(--ink);">The $200/mo difference cost the 3869 owner approximately $4,620 in net income compared to the 3912 owner. Pricing right beats pricing high.</p>
+        </div>
+
+        <div class="insight-box green">
+            <div class="label">The Somerset Crossings Inventory Picture</div>
+            <div class="headline">There is currently no rental inventory available in your subdivision.</div>
+            <p>Every recent rental in Somerset Crossings has been absorbed. The two 2019-built comps on your own street (3869 and 3912 Plainview) are both leased. There is one pending lease in the subdivision and zero currently active rental listings. The only active 3BR rental comp in the broader area (2243 J Lawson Blvd) is in a different subdivision two miles away — and even that property is at 14 days on market.</p>
+            <p>This matters for two reasons. First, a renter actively searching Somerset Crossings has <strong>no alternatives right now</strong> — your property would be the only option for that targeted demand. Second, it tells us the local rental absorption rate is healthy: properties priced correctly are leasing, not stacking up on market.</p>
+            <p style="font-weight: 600; color: var(--ink);">Scarcity in your immediate subdivision gives us conviction to hold the $2,195 starting price with a well-presented listing.</p>
+        </div>
+
+        <div class="insight-box green">
+            <div class="label">The 2-Bedroom Reality</div>
+            <div class="headline">The only 2-bedroom comp leased in 10 days at exactly $2,200.</div>
+            <p>2942 Rodrick Circle — 2BR/2.5BA, 1,725 sqft, 2010 build — was leased on April 24 at $2,200/mo in just <strong>10 days on market</strong>. That is the fastest placement in the entire comp set.</p>
+            <p>This is the most directly comparable property to yours by bedroom count, and the market told us very clearly what a well-presented 2BR/2.5BA townhouse rents for in this corridor. Your property is newer than this comp by 9 years and presents better — which gives us conviction we can land in the same range with equal or faster velocity.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING SCENARIOS -->
+<section>
+    <div class="container">
+        <div class="section-label">Section 04 — Pricing Strategy</div>
+        <h2>The strategy: <em>start at $2,195. Hold the line. Use the floor only if needed.</em></h2>
+
+        <p class="lead">Our recommended approach is a defensive pricing strategy — list at $2,195 with a planned floor of $2,095 we can move to if applicant flow is slower than expected. In most cases with a property of this caliber and condition, we never actually use the floor. The cushion is there for protection, not for use.</p>
+
+        <div class="scenario-grid">
+            <div class="scenario-card recommended">
+                <div class="scenario-label">Starting List Price</div>
+                <div class="scenario-price">$2,195</div>
+                <div class="scenario-dom">target ≤ 21 days</div>
+                <div class="scenario-note">$5 under the $2,200 psychological barrier — captures every Zillow search filtered at "max $2,200." Anchored to two leased comps at $2,200 with strong placement velocity.</div>
+            </div>
+            <div class="scenario-card stretch">
+                <div class="scenario-label">If Slow at Day 14</div>
+                <div class="scenario-price">$2,150</div>
+                <div class="scenario-dom">target ≤ 35 days</div>
+                <div class="scenario-note">Matches the $2,150 leased comp at 3061 Rodrick (20 DOM). A targeted reduction if applicant flow is below expectations after two weeks of marketing.</div>
+            </div>
+            <div class="scenario-card stretch">
+                <div class="scenario-label">Defensive Floor</div>
+                <div class="scenario-price">$2,095</div>
+                <div class="scenario-dom">target ≤ 45 days</div>
+                <div class="scenario-note">Final defensive position if applicant flow remains weak at day 30. Below every leased comp in the dataset — but ensures placement well within Q3 leasing season.</div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <div class="label">The 3869 Plainview Lesson</div>
+            <div class="headline">Why we don't list above $2,195 — even though the property could "deserve" more.</div>
+            <p>3869 Plainview, your direct comp (same street, same builder, same 1,881 sqft, same 2019 build), was listed at $2,400 and took <strong>96 days</strong> to lease at full ask. The owner held firm and "won" on price — but they paid for it with <strong>~$7,680 in lost rent</strong> just sitting empty.</p>
+            <p>3912 Plainview, the same property type, listed at $2,200 and leased in <strong>33 days</strong>. Two months earlier off the market and producing income.</p>
+            <p style="font-weight: 600; color: var(--ink);">The $200/mo difference cost the 3869 owner approximately $4,620 in net income compared to the 3912 owner. Pricing right beats pricing high — every time, in this submarket.</p>
+        </div>
+
+        <h3>The Annual Income Math Across Strategies</h3>
+        <p>The instinct to "list high and see what happens" feels safe, but the data shows it costs the owner real money. Here is the same year of income compared across pricing strategies:</p>
+
+        <table class="math-table">
+            <tr>
+                <td class="label">$2,195 starting strategy · ~14-day average vacancy</td>
+                <td class="value">$2,195 × 11.5 mo = <strong>$25,243</strong></td>
+            </tr>
+            <tr>
+                <td class="label">$2,250 stretch strategy · ~40-day average vacancy</td>
+                <td class="value">$2,250 × 10.7 mo = <strong>$24,075</strong></td>
+            </tr>
+            <tr>
+                <td class="label">$2,400 above-market · ~96-day vacancy (per actual comp)</td>
+                <td class="value">$2,400 × 8.8 mo = <strong>$21,120</strong></td>
+            </tr>
+            <tr class="headline">
+                <td>Income protected by pricing right at $2,195</td>
+                <td class="value">Up to $4,123 per year</td>
+            </tr>
+        </table>
+        <p style="font-size: 14px; color: var(--muted); font-style: italic; margin-top: 8px;">Simplified model. Assumes one tenant placement per year, vacancy is replaced by the eventual leased rate, and ignores any leasing or management fees. The point is illustrative — higher list prices in this submarket do not produce higher annual income because vacancy drag overwhelms the rent premium.</p>
+    </div>
+</section>
+
+<!-- POSITIONING & MARKETING -->
+<section>
+    <div class="container">
+        <div class="section-label">Section 05 — How Verandah Will Position Your Property</div>
+        <h2>The right price <em>opens the door.</em> The right marketing brings the right tenant through it.</h2>
+
+        <p class="lead">Pricing alone does not deliver a 21-day placement. The combination of accurate pricing with professional positioning is what attracts the well-qualified, accountable tenant your property deserves.</p>
+
+        <h3>What We Highlight in Marketing</h3>
+        <ul style="margin-left: 22px; line-height: 1.9;">
+            <li><strong>Two ensuite primary bedrooms</strong> — a rare and highly desirable configuration for professional couples or roommate-pair situations</li>
+            <li><strong>Flex loft space</strong> — marketed as ideal for a home office, nursery, fitness space, or guest area</li>
+            <li><strong>Move-in ready condition</strong> — neutral palette, meticulously maintained, no deferred maintenance</li>
+            <li><strong>2019 construction</strong> — newer than nearly every comparable rental in the corridor</li>
+            <li><strong>Attached 1-car garage</strong> — meaningful storage and security advantage over open-parking comps</li>
+            <li><strong>Located within the broader Southeast Orlando corridor</strong> — minutes from major employment, the 417 corridor, Lake Nona, and the airport</li>
+        </ul>
+
+        <h3>Verandah Marketing Channels</h3>
+        <p>Once the property is rent-ready and professional photos are complete, your listing will go live across:</p>
+        <ul style="margin-left: 22px; line-height: 1.9;">
+            <li><strong>MLS (Stellar MLS)</strong> — exposure to every Realtor in Central Florida with the Realtor co-op compensation handled by Verandah, not you</li>
+            <li><strong>Zillow with virtual tour and floor plan</strong> — features Zillow actively promotes in search results</li>
+            <li><strong>Realtor.com, Apartments.com, Rent.com</strong> — all major rental syndication partners</li>
+            <li><strong>VerandahProperties.com</strong> — featured within our boutique market identity</li>
+            <li><strong>Rently Smart Lockbox</strong> — verified self-showings 24/7 with ID confirmation and instant alerts</li>
+        </ul>
+    </div>
+</section>
+
+<!-- NEXT STEPS -->
+<section>
+    <div class="container">
+        <div class="section-label">Section 06 — Recommended Next Steps</div>
+        <h2>From this analysis <em>to a signed lease.</em></h2>
+
+        <div class="steps-list">
+            <div class="step">
+                <div class="num">1</div>
+                <div class="body">
+                    <h4>Confirm pricing and management agreement</h4>
+                    <p>Review this analysis, align on the $2,195 recommended starting list (with the $2,095–$2,195 strategic range for negotiation flexibility), and execute the Verandah Exclusive Rental Management Agreement. Your management fee for this property in our select managed corridor will be confirmed during onboarding.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="num">2</div>
+                <div class="body">
+                    <h4>Pre-management prep form &amp; onboarding documents</h4>
+                    <p>We send these in stages so it never feels overwhelming. Property details, HOA info, utilities, insurance, amenities — everything we need to market accurately and manage seamlessly.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="num">3</div>
+                <div class="body">
+                    <h4>On-site walkthrough and professional photography</h4>
+                    <p>Given your video tour, your property is already presentation-ready. We schedule a brief on-site walkthrough to install the Rently Smart Lockbox and our professional photographer to capture the home in its strongest light.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="num">4</div>
+                <div class="body">
+                    <h4>Listing goes live across all channels</h4>
+                    <p>MLS, Zillow, Realtor.com, and all major rental platforms — same day. Showings begin immediately through Rently with verified ID-confirmation.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="num">5</div>
+                <div class="body">
+                    <h4>Multi-layer applicant screening</h4>
+                    <p>Credit, income (2.5–3x rent verified), rental history, document authenticity, background — every applicant goes through every layer. No exceptions.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="num">6</div>
+                <div class="body">
+                    <h4>Lease execution and move-in</h4>
+                    <p>Lease preparation, security deposit collection, full move-in inspection with photo documentation stored in your owner portal. Welcome to a fully managed property.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-box green" style="margin-top: 32px;">
+            <div class="label">Final Note from Pamela</div>
+            <div class="headline">Ram, this report is built around the data, not around hope.</div>
+            <p>I know you purchased this property in 2022 when both sales and rental markets were near their peak. The numbers in this analysis are not a reflection of your property — your property is genuinely beautiful and exactly the kind of home we love to represent. The numbers reflect the broader corridor's rental market today, which has softened from 2022 highs along with the rest of Central Florida.</p>
+            <p>My recommendation is to start at <strong>$2,195</strong> — supported directly by recent on-the-street comparable data — with a defensive floor of $2,095 we can move to in steps only if applicant flow is slower than expected. In most cases with a property of your caliber, we never actually need the floor. The strategy gives us conviction at the top and protection at the bottom.</p>
+            <p>I would rather earn your trust with an honest recommendation today than promise a higher number that leaves your property sitting empty for three months. The math simply doesn't reward chasing the top of the market in this corridor right now.</p>
+            <p style="font-weight: 600; color: var(--ink);">When you're ready, let's get this beautiful home in front of the right tenant.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="report-footer">
+    <div class="container">
+        <div class="brand">Verandah Properties, LLC</div>
+        <div>Pamela Syvertson · Owner &amp; Broker</div>
+        <div>(407) 415-5478 · <a href="mailto:pamela@verandahproperties.com">pamela@verandahproperties.com</a></div>
+        <div><a href="https://www.verandahproperties.com">verandahproperties.com</a></div>
+        <div class="disclaimer">This is an opinion of value based on current Stellar MLS data and is not an appraisal. Rental valuations are influenced by condition, presentation, seasonality, applicant flow, and broader market conditions. Final pricing strategy will be confirmed at the time of marketing. © 2026 Verandah Properties, LLC.</div>
+    </div>
+</footer>
+
+<script>
+const ctx = document.getElementById('domChart').getContext('2d');
+new Chart(ctx, {
+    type: 'scatter',
+    data: {
+        datasets: [
+            {
+                label: 'Leased Comps',
+                data: [
+                    { x: 10, y: 2200, label: '2942 Rodrick (2BR)' },
+                    { x: 20, y: 2150, label: '3061 Rodrick (3BR)' },
+                    { x: 33, y: 2200, label: '3912 Plainview (3BR)' },
+                    { x: 96, y: 2400, label: '3869 Plainview (3BR)' }
+                ],
+                backgroundColor: '#008C82',
+                borderColor: '#006661',
+                borderWidth: 2,
+                pointRadius: 10,
+                pointHoverRadius: 13
+            },
+            {
+                label: 'Active (Unleased)',
+                data: [
+                    { x: 14, y: 2350, label: '2243 J Lawson (active)' }
+                ],
+                backgroundColor: '#c9a227',
+                borderColor: '#8e7115',
+                borderWidth: 2,
+                pointRadius: 10,
+                pointHoverRadius: 13,
+                pointStyle: 'triangle'
+            },
+            {
+                label: 'Recommended ($2,195)',
+                data: [
+                    { x: 21, y: 2195, label: '3924 Plainview Target' }
+                ],
+                backgroundColor: '#D4AF50',
+                borderColor: '#9a7e2d',
+                borderWidth: 3,
+                pointRadius: 14,
+                pointHoverRadius: 17,
+                pointStyle: 'rectRot'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 2.1,
+        scales: {
+            x: {
+                title: { display: true, text: 'Days on Market until Leased', font: { family: 'Jost', size: 13, weight: '500' } },
+                min: 0,
+                max: 110,
+                ticks: { font: { family: 'Jost' } },
+                grid: { color: '#E8E5DD' }
+            },
+            y: {
+                title: { display: true, text: 'Leased / Asking Rent ($/mo)', font: { family: 'Jost', size: 13, weight: '500' } },
+                min: 2100,
+                max: 2450,
+                ticks: { font: { family: 'Jost' }, callback: function(v) { return '$' + v.toLocaleString(); } },
+                grid: { color: '#E8E5DD' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top', labels: { font: { family: 'Jost', size: 12 } } },
+            tooltip: {
+                callbacks: {
+                    label: function(ctx) {
+                        return ctx.raw.label + ': $' + ctx.raw.y.toLocaleString() + ' · ' + ctx.raw.x + ' days';
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
